@@ -1,0 +1,22 @@
+:root {
+    --height-sidebar: calc(100vh - 10rem);
+}
+
+.select-order-box {
+    display: inline-block;
+    width: 18rem;
+}
+
+.select-size-box {
+    display: inline-block;
+    width: 27.4rem;
+}
+
+.sidebar {
+    flex: 1 20rem;
+    border-left: 1px solid gray;
+}
+
+.label {
+    color: red;
+}

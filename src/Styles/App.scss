@@ -1,0 +1,118 @@
+// 
+:root {
+    --height-sidebar: calc(100vh - 10rem);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: orange;
+}
+
+.grid-band {
+    display: grid;
+    grid-template-rows: 5rem 4rem 1fr 4rem;
+    grid-template-columns: 1f;
+    gap: 10px;
+}
+
+.title-band {
+    height: 3.5rem;
+    background-color: #203040 !important;
+    color: #ffffff !important;
+    padding: 0.5rem 0 05rem 2rem;
+    font-size: 20px;
+    line-height: 4rem;
+    a {
+        color: #ffffff;
+        text-decoration: none;
+    }
+    a:hover {
+        color: orange;
+    }
+}
+
+.filter-band {
+    display: grid;
+    grid-template-rows: 4.2rem;
+    grid-template-columns: 10rem 190px 250px 1fr;
+    grid-gap: 0px;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: cornsilk;
+    div {
+        margin-left: 5px;
+    }
+}
+
+.number-of-products {
+    width: 10rem;
+    padding-left: 1rem;
+    font-weight: bold;
+}
+
+.cart-items-number {
+    display: inline-block;
+}
+
+.main-sidebar {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.footer {
+    height: 4rem;
+    text-align: center;
+    color: white;
+    background-color: black;
+    line-height: 4rem;
+}
+
+.main {
+    display: flex;
+    width: 65vw;
+    gap: 5px;
+    padding: 2px 1rem;
+}
+
+.sidebar {
+    flex: 1 20rem;
+}
+
+.button {
+    padding: 1rem;
+    border: 0.1rem #c0c0c0 solid;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.button:hover {
+    border: 0.1rem #808080 solid;
+}
+
+.button-primary,
+.button-proceed {
+    background-color: #f0c040;
+    min-width: 10rem;
+    padding: 2px 10px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.button-proceed {
+    height: 3rem;
+    min-width: 6rem;
+    line-height: 15px;
+}
+
+.total {
+    display: grid;
+    min-width: 27.5rem; // when 2 models (3 items) is displayed
+    grid-template-rows: 3.6rem;
+    grid-template-columns: 3fr 1fr;
+    justify-content: end;
+    align-items: self-end;
+}

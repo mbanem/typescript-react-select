@@ -1,0 +1,75 @@
+{
+    "products": [{
+            "id": 1,
+            "title": "Short Pants",
+            "image": "/images/dress1.jpg",
+            "description": "Summer short pants",
+            "price": 19.85,
+            "availableSizes": ["XS", "S", "M", "L", "XL", "XXL"]
+        },
+        {
+            "id": 2,
+            "title": "Jacket",
+            "image": "/images/dress2.jpg",
+            "description": "Summer sport jacket",
+            "price": 24.95,
+            "availableSizes": ["M", "L", "XL", "XXL"]
+        },
+        {
+            "id": 3,
+            "title": "Gown",
+            "image": "/images/dress3.jpg",
+            "description": "Summer light gown",
+            "price": 28.65,
+            "availableSizes": ["S", "M", "L", "XL"]
+        },
+        {
+            "id": 4,
+            "title": "Light sunny dress",
+            "image": "/images/dress4.jpg",
+            "description": "Light dress for a hot day",
+            "price": 25.9,
+            "availableSizes": ["XS", "S", "M", "L"]
+        },
+        {
+            "id": 5,
+            "title": "Elegancy",
+            "image": "/images/dress5.jpg",
+            "description": "Very elegant and comfortable",
+            "price": 31.4,
+            "availableSizes": ["XS", "S", "L", "XL"]
+        },
+        {
+            "id": 6,
+            "title": "Silk",
+            "image": "/images/dress6.jpg",
+            "description": "Light silky dress",
+            "price": 30.85,
+            "availableSizes": ["XS", "S", "M", "L", "XL", "XXL"]
+        },
+        {
+            "id": 7,
+            "title": "Beauty",
+            "image": "/images/dress7.jpg",
+            "description": "Light beauty dress",
+            "price": 30.25,
+            "availableSizes": ["L", "XL", "XXL"]
+        },
+        {
+            "id": 8,
+            "title": "Ency",
+            "image": "/images/dress8.jpg",
+            "description": "New Ency style",
+            "price": 30.55,
+            "availableSizes": ["M", "L"]
+        },
+        {
+            "id": 9,
+            "title": "Elegancy",
+            "image": "/images/dress9.webp",
+            "description": "Elegancy summer dress",
+            "price": 30,
+            "availableSizes": ["M", "L"]
+        }
+    ]
+}

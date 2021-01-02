@@ -1,0 +1,39 @@
+{
+    "name": "react-typescript",
+    "version": "1.0.0",
+    "description": "Solution to StackOverflow question 'How to declare props for react-select in typescript?'",
+    "keywords": [
+        "typescript",
+        "react",
+        "starter"
+    ],
+    "main": "src/index.tsx",
+    "license": "UNLICENSED",
+    "dependencies": {
+        "@material-ui/core": "4.11.2",
+        "@material-ui/icons": "^4.11.2",
+        "@types/react-select": "3.0.28",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1",
+        "react-scripts": "4.0.1",
+        "react-select": "3.1.1",
+        "sass": "^1.30.0"
+    },
+    "devDependencies": {
+        "@types/react": "17.0.0",
+        "@types/react-dom": "17.0.0",
+        "typescript": "4.1.3"
+    },
+    "scripts": {
+        "start": "PORT=3001 react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
+}
