@@ -1,12 +1,7 @@
 import '../Styles/App.scss';
 
 import { Filter, IOrderByProps, ISizeProps } from './Filter';
-import {
-	ICartItem,
-	IData,
-	IProduct,
-	IState,
-} from '../Models/Interfaces/Interfaces';
+import { ICartItem, IData, IProduct, IState } from '../Models/Interfaces';
 import React, { useState } from 'react';
 
 import { Cart } from './Cart';

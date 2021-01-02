@@ -1,4 +1,4 @@
-import { IProduct, IData } from './Interfaces/Interfaces';
+import { IData, IProduct } from './Interfaces';
 export interface IOption {
 	value: string;
 	label: string;

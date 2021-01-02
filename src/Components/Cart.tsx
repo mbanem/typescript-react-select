@@ -1,6 +1,6 @@
 import '../Styles/Cart.scss';
 
-import { ICart, ICartItem } from '../Models/Interfaces/Interfaces';
+import { ICart, ICartItem } from '../Models/Interfaces';
 
 import React from 'react';
 import { formatCurrency } from '../Utils/FormatCurrency';

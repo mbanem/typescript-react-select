@@ -1,4 +1,6 @@
-import { IProduct, IState } from '../Models/Interfaces/Interfaces';
+import { IProduct, IState } from '../Models/Interfaces';
+
+import { sortProducts } from './SortProducts';
 
 export const getInitialState = (products: IProduct[]): IState => {
 	const emptyProduct = {
@@ -10,7 +12,7 @@ export const getInitialState = (products: IProduct[]): IState => {
 		availableSizes: [],
 	};
 	const state: IState = {
-		products,
+		products: sortProducts(products, 'latest'),
 		cart: {
 			items: [{ product: emptyProduct, quantity: 0 }],
 			numberOfModels: 0,
