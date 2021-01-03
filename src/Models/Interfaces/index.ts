@@ -12,6 +12,7 @@ export type IData = {
 
 export interface ICartItem {
 	product: IProduct;
+	size: string;
 	quantity: number;
 }
 export interface ICart {
@@ -22,6 +23,11 @@ export interface ICart {
 }
 export interface IState {
 	products: IProduct[];
+	cart: ICart;
+	size: string;
+	orderBy: string;
+}
+export interface ICartAndFilter {
 	cart: ICart;
 	size: string;
 	orderBy: string;

@@ -17,11 +17,11 @@ export const Cart: React.FC<ICartProps> = ({
 	const itemInfo = (item: ICartItem): JSX.Element => {
 		const times = item.quantity > 1 ? `${item.quantity} x` : '';
 		const total = item.quantity * item.product.price;
-		const str = `${times} ${item.product.title}`;
+		const str = `${times} ${item.product.title} - ( ${item.size} )`;
 		return (
 			<>
 				<div style={{ padding: 0, margin: 0 }}>
-					{times} {item.product.title}
+					{times} {str}
 				</div>
 				<div style={{ padding: '3px', margin: 0 }}>
 					Total {formatCurrency(total)}

@@ -1,11 +1,12 @@
 // @flow
 
+// import makeAnimated from 'react-select/animated';
+import { getOptionSize, optionsSize } from '../Models/options';
+
 import { ISizeProps } from './Filter';
 import React from 'react';
 import Select from 'react-select';
 import { customStyles } from '../Utils/CustomStyles';
-// import makeAnimated from 'react-select/animated';
-import { optionsSize } from '../Models/options';
 
 // NOTE: commented out is toggle multi - single r multiple select component
 export const SelectSize: React.FC<ISizeProps> = (props): JSX.Element => {
@@ -33,7 +34,7 @@ export const SelectSize: React.FC<ISizeProps> = (props): JSX.Element => {
 				onChange={props.onSelectSize}
 				// closeMenuOnSelect={true}
 				// components={SelectSizeComponents}
-				// defaultValue={[colourOptions[4], colourOptions[5]]}
+				defaultValue={getOptionSize(props.size)}
 				// isMulti={state.isMulti}
 				options={optionsSize}
 				styles={customStyles}

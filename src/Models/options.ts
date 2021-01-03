@@ -3,6 +3,9 @@ export interface IOption {
 	value: string;
 	label: string;
 }
+export const getOptionSize = (size: string) => {
+	return optionsSize.find((el) => el.value === size);
+};
 export const optionsSize = [
 	{ value: 'XS', label: 'XS Extra Small' },
 	{ value: 'S', label: 'S Small' },
@@ -11,6 +14,9 @@ export const optionsSize = [
 	{ value: 'XL', label: 'XL Extra Large' },
 	{ value: 'XXL', label: 'XXL Extra-Extra Large' },
 ];
+export const getOptionOrderBy = (orderBy: string) => {
+	return optionsOrderBy.find((el) => el.value === orderBy);
+};
 export const optionsOrderBy = [
 	{ value: 'latest', label: 'Latest' },
 	{ value: 'lowest', label: 'Lowest' },

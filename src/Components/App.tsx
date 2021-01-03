@@ -1,10 +1,16 @@
 import '../Styles/App.scss';
 
-import { Filter, IOrderByProps, ISizeProps } from './Filter';
-import { ICartItem, IData, IProduct, IState } from '../Models/Interfaces';
-import React, { useState } from 'react';
+import { Cart, ICartProps } from './Cart';
+import { Filter, IFilterProps, IOrderByProps, ISizeProps } from './Filter';
+import {
+	ICart,
+	ICartItem,
+	IData,
+	IProduct,
+	IState,
+} from '../Models/Interfaces';
+import React, { useEffect, useState } from 'react';
 
-import { Cart } from './Cart';
 import { IOption } from '../Models/options';
 import { Products } from './Products';
 import { ValueType } from 'react-select';
@@ -17,10 +23,13 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 	//
 	const handleQuantity = (cartItem: ICartItem, delta: number) => {
 		let cart = state.cart;
-		let removeItem;
+		let removeItem: any;
 		let items;
 		cart.items.forEach((item) => {
-			if (item.product.id === cartItem.product.id) {
+			if (
+				item.product.id === cartItem.product.id &&
+				item.size === cartItem.size
+			) {
 				if (item.quantity + delta > 0) {
 					item.quantity += delta;
 					cart.numberOfItems += delta;
@@ -33,24 +42,31 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 		if (removeItem) {
 			// remove the model from the cart
 			items = cart.items.filter(
-				(item) => item.product.id !== cartItem.product.id
+				(item) =>
+					item.product.id !== removeItem.product.id ||
+					item.size !== removeItem.size
 			);
 			cart = { ...cart, items };
 			cart.numberOfItems -= 1;
-			console.log(
-				'cart.numberOfItems cart.numberOfModels',
-				cart.numberOfItems,
-				cart.numberOfModels
-			);
-			cart.numberOfModels -= 1;
-			cart.total -= cartItem.product.price;
+			//if no more models of removeItem type, decrement models number
+			if (!items.some((item) => item.product.id === removeItem.product.id)) {
+				cart.numberOfModels -= 1;
+			}
+			cart.total -= removeItem.product.price;
 		}
 		setState({ ...state, cart });
 	};
 	// initially state.products contains the full product list
 	// but is changed based on the selected size
 	const [state, setState] = useState<IState>(getInitialState(data.products));
-
+	useEffect(() => {
+		const cartAndFilter = {
+			cart: state.cart,
+			size: state.size,
+			orderBy: state.orderBy,
+		};
+		localStorage.setItem('cartAndFilter', JSON.stringify(cartAndFilter));
+	}, [state]);
 	// state products includes products of the selected size
 	// or full products list if size is cleared in the select size box
 	// but always ordered according to the selected order by
@@ -90,25 +106,27 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 
 	const addToCart = (product: IProduct) => {
 		const items = state.cart.items.slice();
-		const numberOfModels = state.cart.numberOfModels + 1;
+		let numberOfModels = state.cart.numberOfModels;
+		if (!items.some((item) => item.product.id === product.id)) {
+			numberOfModels += 1;
+		}
 		const total = state.cart.total + product.price;
 		const numberOfItems = state.cart.numberOfItems + 1;
-		if (items.some((el) => el.product.id === product.id)) {
-			// item is already in the cart so increment its quantity
-			const items = state.cart.items.slice(); // take items clone
-			const ix = items.findIndex((item) => item.product.id === product.id);
-			if (ix >= 0) {
-				items[ix].quantity += 1;
-				setState({
-					...state,
-					cart: { items, numberOfModels, numberOfItems, total },
-				});
-			} else {
-				throw new Error(`addToCart findIndex falsely found index: ${ix}`);
+		let found = false;
+		items.forEach((item) => {
+			if (item.product.id === product.id && item.size === state.size) {
+				item.quantity += 1;
+				found = true;
 			}
-		} else {
+		});
+
+		setState({
+			...state,
+			cart: { items, numberOfModels, numberOfItems, total },
+		});
+		if (!found) {
 			// new item not yet in the cart
-			items.push({ product, quantity: 1 });
+			items.push({ product, size: state.size, quantity: 1 });
 			setState({
 				...state,
 				cart: { items, numberOfModels, numberOfItems, total },
@@ -156,7 +174,7 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 		size: state.size,
 		onSelectSize: onSelectSize,
 	};
-	const cartProps = {
+	const cartProps: ICartProps = {
 		cart: state.cart,
 		handleQuantity,
 	};
@@ -164,7 +182,7 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 		orderBy: state.orderBy,
 		onSelectOrderBy: onSelectOrderBy,
 	};
-	const filterProps = {
+	const filterProps: IFilterProps = {
 		orderBy: orderByProps,
 		size: sizeProps,
 	};
