@@ -24,10 +24,10 @@ export interface ICart {
 	total: number;
 }
 export interface IState {
-	products: IProduct[]; // sorted according to orderBy; default: latest
+	products: IProduct[]; // sorted according to
 	cart: ICart;
-	size: string; // currently selected dropdown
-	orderBy: string; // currently selected dropdown
+	size: string;
+	orderBy: string;
 }
 export interface ICartAndFilter {
 	cart: ICart;
@@ -36,7 +36,7 @@ export interface ICartAndFilter {
 }
 export interface ICartProps {
 	cart: ICart;
-	handleQuantity: (item: ICartItem, delta: number) => void;
+	handleQuantity: (item: ICartItem, quantity: number) => void;
 }
 export interface IProductProps {
 	props: {

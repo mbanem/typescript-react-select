@@ -13,7 +13,6 @@ import React, { useEffect, useState } from 'react';
 import {
 	addNewSizeToProductInCart,
 	addProductOfSizeToCart,
-	cartItemProduct,
 	changeProductOfSizeQuantity,
 	isProductInCart,
 	isProductOfSizeInCart,
@@ -31,6 +30,9 @@ import { sortProducts } from '../Utils/SortProducts';
 export const App: React.FC<IData> = (data: IData): JSX.Element => {
 	//
 	const handleQuantity = (cartItem: ICartItem, delta: number) => {
+		let cart = state.cart;
+		let removeItem: any;
+		let items;
 		const product = productFromId(cartItem.productId);
 		const newCart = changeProductOfSizeQuantity(
 			product,
