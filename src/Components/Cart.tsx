@@ -3,7 +3,7 @@ import '../Styles/Cart.scss';
 import { ICart, ICartItem } from '../Models/Interfaces';
 
 import React from 'react';
-import { TooltipButton } from '../Utils/TooltipButton';
+import { TooltipButton } from './Handlers/TooltipButton';
 import { cartItemSizeList } from '../Utils/CartItemHandlers';
 import { itemInfo } from './Handlers/ItemInfo';
 import { productFromId } from '../index';
@@ -14,7 +14,7 @@ export interface ICartProps {
 	size: string;
 	handleQuantity: (item: ICartItem, delta: number) => void;
 }
-// ------------------------------------------------------------
+// --------------------------------------------------------
 export const Cart: React.FC<ICartProps> = ({
 	cart,
 	size,
@@ -39,7 +39,7 @@ export const Cart: React.FC<ICartProps> = ({
 		<>
 			<div className='cart'>
 				{cart.numberOfItems > 0 && (
-					<span className='btn-enabled-msg'>
+					<span data-tip={tooltip} className='btn-enabled-msg'>
 						Buttons enabled only for size ({size})
 					</span>
 				)}

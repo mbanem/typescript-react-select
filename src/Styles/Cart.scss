@@ -1,6 +1,6 @@
 /* why the first line is indented? */
 
-$color: blue;
+$color: blue !global;
 .cart {
     padding: 0;
     margin: 0;
@@ -57,7 +57,7 @@ $color: blue;
 .quantity-button-disabled {
     background-color: lightgray;
     &:hover {
-        $color: red;
+        $color: red !global;
         border-color: gray;
     }
 }
