@@ -3,7 +3,7 @@ import '../Styles/Cart.scss';
 import { ICart, ICartItem } from '../Models/Interfaces';
 
 import React from 'react';
-import { TooltipButton } from '../Utils/TooltipButton';
+import { TooltipButton } from './Handlers/TooltipButton';
 import { cartItemSizeList } from '../Utils/CartItemHandlers';
 import { itemInfo } from './Handlers/ItemInfo';
 import { productFromId } from '../index';
