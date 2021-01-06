@@ -3,64 +3,82 @@ import '../Styles/Cart.scss';
 import { ICart, ICartItem } from '../Models/Interfaces';
 
 import React from 'react';
-import { formatCurrency } from '../Utils/FormatCurrency';
+import { TooltipButton } from './Handlers/TooltipButton';
+import { cartItemSizeList } from '../Utils/CartItemHandlers';
+import { itemInfo } from './Handlers/ItemInfo';
+import { productFromId } from '../index';
 
+type handleQuantity = (item: ICartItem, delta: number) => void;
 export interface ICartProps {
 	cart: ICart;
-	handleQuantity: (item: ICartItem, quantity: number) => void;
+	size: string;
+	handleQuantity: (item: ICartItem, delta: number) => void;
 }
-type handleQuantity = (item: ICartItem, delta: number) => void;
+// ------------------------------------------------------------
 export const Cart: React.FC<ICartProps> = ({
 	cart,
+	size,
 	handleQuantity,
 }): JSX.Element => {
-	const itemInfo = (item: ICartItem): JSX.Element => {
-		const times = item.quantity > 1 ? `${item.quantity} x` : '';
-		const total = item.quantity * item.product.price;
-		const str = `${times} ${item.product.title} - ( ${item.size} )`;
-		return (
-			<>
-				<div style={{ padding: 0, margin: 0 }}>
-					{times} {str}
-				</div>
-				<div style={{ padding: '3px', margin: 0 }}>
-					Total {formatCurrency(total)}
-				</div>
-			</>
-		);
+	let tooltip = '';
+	const tooltipSize = () => {
+		return tooltip;
+	};
+	const isEnabled = (item: ICartItem) => {
+		if (item.sizeQuantity.find((sq) => sq.size === size) !== undefined) {
+			tooltip = '';
+			return 'quantity-button';
+		} else {
+			const sizeList = cartItemSizeList(item);
+			tooltip = `to enable buttons select ${sizeList}`;
+			return 'quantity-button-disabled';
+		}
 	};
 
 	return (
 		<>
 			<div className='cart'>
+				{cart.numberOfItems > 0 && (
+					<span className='btn-enabled-msg'>
+						Buttons enabled only for size ({size})
+					</span>
+				)}
 				<ul className='cart-items'>
-					{cart.items.map((item) => (
-						<li key={item.product.id}>
-							<img
-								width='50px'
-								height='70px'
-								src={item.product.image}
-								alt={item.product.title}
-							/>
-							<div>
-								<div className='cart-item-title'>{itemInfo(item)}</div>
+					{cart.items.map((item) => {
+						const product = productFromId(item.productId);
+						isEnabled(item);
+						return (
+							<li key={product.id}>
+								<img
+									width='50px'
+									height='70px'
+									src={product.image}
+									alt={product.title}
+								/>
 								<div>
-									<div
-										onClick={() => handleQuantity(item, 1)}
-										className='quantity-button'
+									<div className='cart-item-title'>{itemInfo(item)}</div>
+									<TooltipButton
+										tooltip={tooltip}
+										item={item}
+										delta={1}
+										onClickHandler={() => handleQuantity(item, 1)}
+										className={isEnabled(item)}
 									>
 										+
-									</div>
-									<div
-										onClick={() => handleQuantity(item, -1)}
-										className='quantity-button'
+									</TooltipButton>
+									<TooltipButton
+										tooltip={tooltip}
+										item={item}
+										delta={-1}
+										onClickHandler={() => handleQuantity(item, -1)}
+										className={isEnabled(item)}
 									>
 										-
-									</div>
+									</TooltipButton>
 								</div>
-							</div>
-						</li>
-					))}
+							</li>
+						);
+					})}
 				</ul>
 			</div>
 		</>

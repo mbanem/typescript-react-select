@@ -9,11 +9,13 @@ export type IProduct = {
 export type IData = {
 	products: IProduct[];
 };
-
-export interface ICartItem {
-	product: IProduct;
+export interface ISizeQuantity {
 	size: string;
 	quantity: number;
+}
+export interface ICartItem {
+	productId: number;
+	sizeQuantity: ISizeQuantity[];
 }
 export interface ICart {
 	items: ICartItem[];
@@ -22,10 +24,10 @@ export interface ICart {
 	total: number;
 }
 export interface IState {
-	products: IProduct[];
+	products: IProduct[]; // sorted according to orderBy; default: latest
 	cart: ICart;
-	size: string;
-	orderBy: string;
+	size: string; // currently selected dropdown
+	orderBy: string; // currently selected dropdown
 }
 export interface ICartAndFilter {
 	cart: ICart;
@@ -34,7 +36,7 @@ export interface ICartAndFilter {
 }
 export interface ICartProps {
 	cart: ICart;
-	handleQuantity: (item: ICartItem, quantity: number) => void;
+	handleQuantity: (item: ICartItem, delta: number) => void;
 }
 export interface IProductProps {
 	props: {

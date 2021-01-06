@@ -1,5 +1,6 @@
 /* why the first line is indented? */
 
+$color: blue !global;
 .cart {
     padding: 0;
     margin: 0;
@@ -15,7 +16,6 @@
     li {
         display: flex;
         height: 7rem;
-        // border: 1px solid gray;
         margin-bottom: 1rem;
         div {
             padding: 0 0 0 1rem;
@@ -25,9 +25,11 @@
 
 .cart-item-title {
     color: navy;
+    font-size: 16px;
 }
 
-.quantity-button {
+.quantity-button,
+.quantity-button-disabled {
     display: inline-block;
     width: 1.7rem;
     height: 2.3rem;
@@ -42,4 +44,29 @@
     &:last-of-type {
         margin-left: 5px;
     }
+    &:disabled:hover {
+        $color: red;
+        border-color: gray;
+    }
+}
+
+.btn-enabled-msg {
+    color: $color
+}
+
+.quantity-button-disabled {
+    background-color: lightgray;
+    &:hover {
+        $color: red;
+        border-color: gray;
+    }
+}
+
+.tooltip {
+    height: 2rem !important;
+    width: 22rem !important;
+    text-align: center !important;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
 }

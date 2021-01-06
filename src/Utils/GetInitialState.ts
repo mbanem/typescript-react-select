@@ -10,7 +10,7 @@ export const getInitialState = (products: IProduct[]): IState => {
 		return state;
 	}
 	const emptyProduct = {
-		id: -1,
+		id: 1,
 		title: '',
 		image: '',
 		description: '',
@@ -20,7 +20,12 @@ export const getInitialState = (products: IProduct[]): IState => {
 	const state: IState = {
 		products: sortProducts(products, 'latest'),
 		cart: {
-			items: [{ product: emptyProduct, size: '', quantity: 0 }],
+			items: [
+				{
+					productId: 1,
+					sizeQuantity: [{ size: '', quantity: 0 }],
+				},
+			],
 			numberOfModels: 0,
 			numberOfItems: 0,
 			total: 0,
