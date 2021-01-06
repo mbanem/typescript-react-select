@@ -10,13 +10,23 @@ import {
 	IState,
 } from '../Models/Interfaces';
 import React, { useEffect, useState } from 'react';
+import {
+	addNewSizeToProductInCart,
+	addProductOfSizeToCart,
+	cartItemProduct,
+	changeProductOfSizeQuantity,
+	isProductInCart,
+	isProductOfSizeInCart,
+} from '../Utils/CartItemHandlers';
 
 import { IOption } from '../Models/options';
 import { Products } from './Products';
+import ReactTooltip from 'react-tooltip';
 import { ValueType } from 'react-select';
 import { formatCurrency } from '../Utils/FormatCurrency';
 import { getInitialState } from '../Utils/GetInitialState';
 import { proceed } from '../Utils/Payment';
+import { productFromId } from '..';
 import { sortProducts } from '../Utils/SortProducts';
 
 export const App: React.FC<IData> = (data: IData): JSX.Element => {
@@ -25,36 +35,14 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 		let cart = state.cart;
 		let removeItem: any;
 		let items;
-		cart.items.forEach((item) => {
-			if (
-				item.product.id === cartItem.product.id &&
-				item.size === cartItem.size
-			) {
-				if (item.quantity + delta > 0) {
-					item.quantity += delta;
-					cart.numberOfItems += delta;
-					cart.total += delta * item.product.price;
-				} else {
-					removeItem = item;
-				}
-			}
-		});
-		if (removeItem) {
-			// remove the model from the cart
-			items = cart.items.filter(
-				(item) =>
-					item.product.id !== removeItem.product.id ||
-					item.size !== removeItem.size
-			);
-			cart = { ...cart, items };
-			cart.numberOfItems -= 1;
-			//if no more models of removeItem type, decrement models number
-			if (!items.some((item) => item.product.id === removeItem.product.id)) {
-				cart.numberOfModels -= 1;
-			}
-			cart.total -= removeItem.product.price;
-		}
-		setState({ ...state, cart });
+		const product = productFromId(cartItem.productId);
+		const newCart = changeProductOfSizeQuantity(
+			product,
+			state.cart,
+			state.size,
+			delta
+		);
+		setState({ ...state, cart: newCart });
 	};
 	// initially state.products contains the full product list
 	// but is changed based on the selected size
@@ -106,33 +94,39 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 
 	const addToCart = (product: IProduct) => {
 		const items = state.cart.items.slice();
-		let numberOfModels = state.cart.numberOfModels;
-		if (!items.some((item) => item.product.id === product.id)) {
-			numberOfModels += 1;
-		}
-		const total = state.cart.total + product.price;
-		const numberOfItems = state.cart.numberOfItems + 1;
-		let found = false;
-		items.forEach((item) => {
-			if (item.product.id === product.id && item.size === state.size) {
-				item.quantity += 1;
-				found = true;
-			}
-		});
+		let cart: ICart = state.cart;
 
-		setState({
-			...state,
-			cart: { items, numberOfModels, numberOfItems, total },
-		});
-		if (!found) {
-			// new item not yet in the cart
-			items.push({ product, size: state.size, quantity: 1 });
-			setState({
-				...state,
-				cart: { items, numberOfModels, numberOfItems, total },
-			});
+		if (isProductOfSizeInCart(product, state.cart, state.size)) {
+			// find model-size and increment the quantity, numberOfItems and total
+			const newCart = changeProductOfSizeQuantity(
+				product,
+				state.cart,
+				state.size,
+				1
+			);
+			if (newCart != undefined) {
+				setState({ ...state, cart: newCart });
+			} else {
+				setState({
+					...state,
+					cart,
+				});
+			}
+		} else {
+			if (isProductInCart(product, state.cart)) {
+				// update numberOfItems and total
+				const newCart = addNewSizeToProductInCart(
+					product,
+					state.cart,
+					state.size
+				);
+				setState({ ...state, cart: newCart });
+			} else {
+				// adjust number of items, models and total
+				const newCart = addProductOfSizeToCart(product, cart, state.size);
+				setState({ ...state, cart: newCart });
+			}
 		}
-		// check if item is already in the cart so increment the quantity
 	};
 	const cartItemsNumber = (): JSX.Element => {
 		let items = '';
@@ -176,6 +170,7 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 	};
 	const cartProps: ICartProps = {
 		cart: state.cart,
+		size: state.size,
 		handleQuantity,
 	};
 	const orderByProps: IOrderByProps = {
@@ -188,27 +183,29 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 	};
 	const props = { products: state.products, addToCart };
 	return (
-		<div className='grid-band'>
-			<div>
-				<div className='title-band'>
-					<a>React Shopping Cart</a>
-				</div>
-			</div>
-			<div className='filter-band'>
-				<div className='number-of-products'>
-					{state.products.length} Products
-				</div>
-				<Filter {...filterProps} />
-				<div className='cart-items-number'>{cartItemsNumber()}</div>
-			</div>
-			<div className='main-sidebar'>
-				<Products props={props} />
+		<>
+			<div className='grid-band'>
 				<div>
-					<Cart {...cartProps} />
+					<div className='title-band'>
+						<a>React Shopping Cart</a>
+					</div>
 				</div>
-				{/* <div className='total'>Total {formatCurrency(state.cart.total)}</div> */}
+				<div className='filter-band'>
+					<div className='number-of-products'>
+						{state.products.length} Products
+					</div>
+					<Filter {...filterProps} />
+					<div className='cart-items-number'>{cartItemsNumber()}</div>
+				</div>
+				<div className='main-sidebar'>
+					<Products props={props} />
+					<div>
+						<Cart {...cartProps} />
+					</div>
+					{/* <div className='total'>Total {formatCurrency(state.cart.total)}</div> */}
+				</div>
+				<div className='footer'>All Rights Reserved</div>
 			</div>
-			<div className='footer'>All Rights Reserved</div>
-		</div>
+		</>
 	);
 };

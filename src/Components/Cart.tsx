@@ -1,27 +1,58 @@
 import '../Styles/Cart.scss';
 
-import { ICart, ICartItem } from '../Models/Interfaces';
+import {
+	ICart,
+	ICartItem,
+	IProduct,
+	ISizeQuantity,
+} from '../Models/Interfaces';
+import {
+	cartItemSizeList,
+	cartItemTotalQuantity,
+	sizeQuantityList,
+} from '../Utils/CartItemHandlers';
 
 import React from 'react';
+import { TooltipButton } from '../Utils/TooltipButton';
 import { formatCurrency } from '../Utils/FormatCurrency';
+import { productFromId } from '../index';
 
+type handleQuantity = (item: ICartItem, delta: number) => void;
 export interface ICartProps {
 	cart: ICart;
-	handleQuantity: (item: ICartItem, quantity: number) => void;
+	size: string;
+	handleQuantity: (item: ICartItem, delta: number) => void;
 }
-type handleQuantity = (item: ICartItem, delta: number) => void;
+// ------------------------------------------------------------
 export const Cart: React.FC<ICartProps> = ({
 	cart,
+	size,
 	handleQuantity,
 }): JSX.Element => {
+	let tooltip = '';
+	const tooltipSize = () => {
+		return tooltip;
+	};
+	const isEnabled = (item: ICartItem) => {
+		if (item.sizeQuantity.find((sq) => sq.size === size) !== undefined) {
+			tooltip = '';
+			return 'quantity-button';
+		} else {
+			const sizeList = cartItemSizeList(item);
+			tooltip = `to enable buttons select ${sizeList}`;
+			return 'quantity-button-disabled';
+		}
+	};
 	const itemInfo = (item: ICartItem): JSX.Element => {
-		const times = item.quantity > 1 ? `${item.quantity} x` : '';
-		const total = item.quantity * item.product.price;
-		const str = `${times} ${item.product.title} - ( ${item.size} )`;
+		const product = productFromId(item.productId);
+		const sqList = sizeQuantityList(item);
+		const quantity = cartItemTotalQuantity(item);
+		// const times = quantity > 1 ? `${quantity} x` : '';
+		const total = quantity * product.price;
 		return (
 			<>
 				<div style={{ padding: 0, margin: 0 }}>
-					{times} {str}
+					{product.title} {sqList}
 				</div>
 				<div style={{ padding: '3px', margin: 0 }}>
 					Total {formatCurrency(total)}
@@ -33,34 +64,47 @@ export const Cart: React.FC<ICartProps> = ({
 	return (
 		<>
 			<div className='cart'>
+				{cart.numberOfItems > 0 && (
+					<span className='btn-enabled-msg'>
+						Buttons enabled only for size ({size})
+					</span>
+				)}
 				<ul className='cart-items'>
-					{cart.items.map((item) => (
-						<li key={item.product.id}>
-							<img
-								width='50px'
-								height='70px'
-								src={item.product.image}
-								alt={item.product.title}
-							/>
-							<div>
-								<div className='cart-item-title'>{itemInfo(item)}</div>
+					{cart.items.map((item) => {
+						const product = productFromId(item.productId);
+						isEnabled(item);
+						return (
+							<li key={product.id}>
+								<img
+									width='50px'
+									height='70px'
+									src={product.image}
+									alt={product.title}
+								/>
 								<div>
-									<div
-										onClick={() => handleQuantity(item, 1)}
-										className='quantity-button'
+									<div className='cart-item-title'>{itemInfo(item)}</div>
+									<TooltipButton
+										tooltip={tooltip}
+										item={item}
+										delta={1}
+										onClickHandler={() => handleQuantity(item, 1)}
+										className={isEnabled(item)}
 									>
 										+
-									</div>
-									<div
-										onClick={() => handleQuantity(item, -1)}
-										className='quantity-button'
+									</TooltipButton>
+									<TooltipButton
+										tooltip={tooltip}
+										item={item}
+										delta={-1}
+										onClickHandler={() => handleQuantity(item, -1)}
+										className={isEnabled(item)}
 									>
 										-
-									</div>
+									</TooltipButton>
 								</div>
-							</div>
-						</li>
-					))}
+							</li>
+						);
+					})}
 				</ul>
 			</div>
 		</>
