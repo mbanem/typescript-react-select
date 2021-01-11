@@ -1,14 +1,18 @@
 import '../Styles/Cart.scss';
 
 import { ICart, ICartItem } from '../Models/Interfaces';
+import React, { useEffect, useState } from 'react';
 
-import React from 'react';
+import { RegistrationForm } from '../Forms/Registration';
 import { TooltipButton } from './Handlers/TooltipButton';
 import { cartItemSizeList } from '../Utils/CartItemHandlers';
+import { gState } from './Handlers/UseSubject';
 import { itemInfo } from './Handlers/ItemInfo';
 import { productFromId } from '../index';
+import { validatePassword } from '../Utils/Validations';
 
 type handleQuantity = (item: ICartItem, delta: number) => void;
+export const showRegistrationForm = () => {};
 export interface ICartProps {
 	cart: ICart;
 	size: string;
@@ -20,6 +24,16 @@ export const Cart: React.FC<ICartProps> = ({
 	size,
 	handleQuantity,
 }): JSX.Element => {
+	const onSubmit = (data: any) => {
+		console.log('onSubmit data`', data);
+	};
+	const [refresh, setRefresh] = useState(false);
+	let tf = false;
+	useEffect(() => {
+		tf = !refresh;
+		setRefresh(tf);
+	}, [gState, refresh]);
+
 	let tooltip = '';
 	const tooltipSize = () => {
 		return tooltip;
@@ -37,6 +51,12 @@ export const Cart: React.FC<ICartProps> = ({
 
 	return (
 		<>
+			{gState.showRegistrationForm && (
+				<RegistrationForm
+					onSubmit={onSubmit}
+					validatePassword={validatePassword}
+				/>
+			)}
 			<div className='cart'>
 				{cart.numberOfItems > 0 && (
 					<span data-tip={tooltip} className='btn-enabled-msg'>

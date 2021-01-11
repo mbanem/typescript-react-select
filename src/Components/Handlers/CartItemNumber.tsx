@@ -1,12 +1,10 @@
 import { IState } from '../../Models/Interfaces';
 import { formatCurrency } from '../../Utils/FormatCurrency';
-export const cartItemsNumber = (
-	state: IState,
-	proceed: () => void
-): JSX.Element => {
+import { toggleRegistrationForm } from './UseSubject';
+export const cartItemsNumber = (state: IState): JSX.Element => {
 	let items = '';
 	const buttonProceed = state.cart.numberOfItems ? (
-		<div className='button-proceed' onClick={proceed}>
+		<div className='button-proceed' onClick={toggleRegistrationForm}>
 			proceed to order
 		</div>
 	) : (

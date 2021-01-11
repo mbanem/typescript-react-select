@@ -17,18 +17,29 @@ import {
 	isProductInCart,
 	isProductOfSizeInCart,
 } from '../Utils/CartItemHandlers';
+import { sendMessage, useSubject } from './Handlers/UseSubject';
 
 import { IOption } from '../Models/options';
 import { Products } from './Products';
+import { Subject } from 'rxjs';
 import { ValueType } from 'react-select';
 import { cartItemsNumber } from './Handlers/CartItemNumber';
 import { getInitialState } from '../Utils/GetInitialState';
-import { proceed } from '../Utils/Payment';
+// import { proceed } from '../Utils/Payment'; Bane
 import { productFromId } from '..';
 import { sortProducts } from '../Utils/SortProducts';
 
+// this subject is used to handle global state and broadcast
+// messages to subscribers when a message is sent via
+// subj.next(message)
+
 export const App: React.FC<IData> = (data: IData): JSX.Element => {
 	//
+	const [refresh, setRefresh] = useState(false);
+	const globalState = useSubject();
+	// usee=d to force re-render when state or globalState mutates
+	let tf = false;
+
 	const handleQuantity = (cartItem: ICartItem, delta: number) => {
 		let cart = state.cart;
 		let removeItem: any;
@@ -46,13 +57,15 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 	// but is changed based on the selected size
 	const [state, setState] = useState<IState>(getInitialState(data.products));
 	useEffect(() => {
+		tf = !refresh;
+		setRefresh(tf);
 		const cartAndFilter = {
 			cart: state.cart,
 			size: state.size,
 			orderBy: state.orderBy,
 		};
 		localStorage.setItem('cartAndFilter', JSON.stringify(cartAndFilter));
-	}, [state]);
+	}, [globalState, state]);
 	// state products includes products of the selected size
 	// or full products list if size is cleared in the select size box
 	// but always ordered according to the selected order by
@@ -161,9 +174,7 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 						{state.products.length} Products
 					</div>
 					<Filter {...filterProps} />
-					<div className='cart-items-number'>
-						{cartItemsNumber(state, proceed)}
-					</div>
+					<div className='cart-items-number'>{cartItemsNumber(state)}</div>
 				</div>
 				<div className='main-sidebar'>
 					<Products props={productProps} />

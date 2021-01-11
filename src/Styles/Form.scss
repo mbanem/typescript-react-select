@@ -1,0 +1,202 @@
+$font-style: normal;
+$color: black;
+$container-width: 20.3rem;
+$box-width: 1.5rem;
+$box-height:1.4rem;
+$radio-label-width: calc(100% - 3rem);
+@mixin reset-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    list-style-type: none;
+}
+
+@mixin check-radio-box {
+    cursor: pointer;
+    width: $box-width;
+    height: $box-height;
+}
+
+@mixin standalone-check-radio-width {
+    width: 16.8rem !important;
+    margin-top: 6px;
+    // &:first-child {
+    //     margin-top: 1rem;
+    // }
+}
+
+#root {
+    margin: 0 auto;
+}
+
+html {
+    font-size: 10px;
+}
+
+body {
+    margin: 1rem;
+    padding: 0;
+}
+
+.form-container {
+    display: inline-block;
+    margin: 4rem 0 1rem calc(50% - 28rem);
+    padding: 1rem 2rem;
+    border: 1px solid gray;
+    border-radius: 8px;
+}
+
+.form-control {
+    width: $container-width;
+}
+
+.form-control label,
+.error-msg {
+    display: inline-block;
+    font-size: 16px;
+    font-style: italic;
+    color: red;
+    margin: 0;
+    padding: 0 0 3px 0;
+}
+
+.form-control label {
+    color: black;
+    position: relative;
+}
+
+.error-msg-frame {
+    position: absolute;
+    top: -11px;
+    left: 5px;
+    font-size: 16px;
+    font-style: italic;
+    color: red;
+    background-color: white;
+    padding: 0;
+    display: block;
+    z-index: 5;
+}
+
+.error-class {
+    background-color: rgb(240, 163, 163);
+}
+
+.radio-group-frame,
+.checkbox-group-frame {
+    position: relative;
+    margin-top: 2rem;
+    width: $container-width;
+    border: 1px solid gray;
+    border-radius: 5px;
+    ul {
+        @include reset-list;
+        label {
+            display: inline-block;
+            width: $radio-label-width;
+            text-align: right;
+            font-style: $font-style;
+            color: $color;
+            cursor: pointer;
+            &:hover {
+                font-style: italic;
+                color: red;
+                background-color: cornsilk;
+            }
+        }
+        input {
+            @include check-radio-box;
+        }
+    }
+    &::before {
+        position: absolute;
+        display: inline-block;
+        top: -15px;
+        left: 18px;
+        font-size: 20px;
+        font-style: italic;
+        content: attr(title);
+        background-color: white;
+        padding: 2px 8px;
+        z-index: 5;
+    }
+}
+
+.label-radio-checkbox-line {
+    display: inline-block;
+    width: $container-width !important;
+    font-style: $font-style;
+    color: $color;
+    cursor: pointer;
+    &:hover {
+        font-style: italic;
+        color: red;
+        background-color: cornsilk;
+    }
+    p,
+    div {
+        display: inline-block;
+        text-align: right;
+        @include standalone-check-radio-width;
+    }
+    input {
+        @include check-radio-box;
+        margin-left: 1rem;
+    }
+    .error-msg {
+        display: inline-block;
+        font-size: 16px;
+        font-style: italic;
+        color: red;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.label-wrapper {
+    p {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.li-radio,
+.li-checkbox {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+     :hover {
+        color: red;
+        background-color: cornsilk;
+    }
+    label {
+        display: inline-block;
+        width: 100%;
+        text-align: right;
+    }
+    input {
+        display: inline-block;
+        margin: 0 1rem 1px 1rem;
+        width: $box-width;
+        height: $box-height;
+    }
+    input:first-child {
+        margin-top: 8px;
+    }
+}
+
+.tooltip {
+    padding: 2px 0 !important;
+    height: 2rem !important;
+    width: 26rem !important;
+    text-align: center !important;
+    border-radius: 6px !important;
+    font-size: 16px !important;
+    line-height: 20px !important;
+}
+
+.submit-button {
+    margin-top: 1rem;
+    width: 8rem;
+    margin-left: calc(50% - 4rem);
+}

@@ -1,3 +1,4 @@
+import { DeepMap, FieldError } from 'react-hook-form';
 export type IProduct = {
 	id: number;
 	title: string;
@@ -44,3 +45,49 @@ export interface IProductProps {
 		addToCart: (item: IProduct) => void;
 	};
 }
+// ----------- USER DATA ---------------
+export interface IRegister {
+	firstName: string;
+	lastName: string;
+	street: string;
+	city: string;
+	zip: number;
+	phone: string;
+	userId: string;
+	password: string;
+}
+export interface IUserData {
+	firstName: string;
+	lastName: string;
+	street: string;
+	city: string;
+	zip: number;
+	phone: string;
+}
+export interface ILoginData {
+	userId: string;
+	password: string;
+}
+
+// --------- FORM ----------
+export interface IFieldDefs {
+	htmlType: string;
+	id?: string | number;
+	type: string;
+	name: string;
+	group?: string[]; // labels for radios
+	className?: string;
+	errorClass?: string;
+	placeholder?: string;
+	checked?: boolean;
+	value?: string;
+	registerBody: Object;
+}
+export interface IFormProps {
+	formId: string;
+	className: string;
+	onSubmit: (data: Object) => any;
+	validatePassword: (str: string) => boolean | string;
+	fieldDefs: IFieldDefs[];
+}
+export type TErrors = DeepMap<Record<string, any>, FieldError>;
