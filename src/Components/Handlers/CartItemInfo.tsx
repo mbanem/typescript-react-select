@@ -3,11 +3,11 @@ import {
 	sizeQuantityList,
 } from '../../Utils/CartItemHandlers';
 
-import { ICartItem } from '../../Models/Interfaces';
+import { ICartItem } from '../../Interface';
 import { formatCurrency } from '../../Utils/FormatCurrency';
 import { productFromId } from '../../index';
 
-export const itemInfo = (item: ICartItem): JSX.Element => {
+export const cartItemInfo = (item: ICartItem): JSX.Element => {
 	const product = productFromId(item.productId);
 	const sqList = sizeQuantityList(item);
 	const quantity = cartItemTotalQuantity(item);

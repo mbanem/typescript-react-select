@@ -1,8 +1,9 @@
 $font-style: normal;
 $color: black;
-$container-width: 20.3rem;
+$container-width: 25.3rem;
 $box-width: 1.5rem;
 $box-height:1.4rem;
+$button-width: 8rem;
 $radio-label-width: calc(100% - 3rem);
 @mixin reset-list {
     margin: 0;
@@ -18,6 +19,7 @@ $radio-label-width: calc(100% - 3rem);
 }
 
 @mixin standalone-check-radio-width {
+    // todo calc based on $container-width #{$container-width}
     width: 16.8rem !important;
     margin-top: 6px;
     // &:first-child {
@@ -186,17 +188,36 @@ body {
 }
 
 .tooltip {
-    padding: 2px 0 !important;
+    display: inline-block;
+    padding: 2px 0 0 5rem !important;
     height: 2rem !important;
     width: 26rem !important;
     text-align: center !important;
     border-radius: 6px !important;
     font-size: 16px !important;
     line-height: 20px !important;
+    border: 1px solid red !important;
+    z-index: 10;
 }
 
+// must be div in order to apply rules; span does not support it
+.tooltip-wrapper {
+    display: inline-block !important;
+    padding: 0 0 0 calc(50% - #{$button-width}) !important;
+    margin: 0 !important;
+}
+
+.reg-button,
 .submit-button {
-    margin-top: 1rem;
-    width: 8rem;
-    margin-left: calc(50% - 4rem);
+    display: inline-block !important;
+    margin: 1rem 5px 0 0!important;
+    width: $button-width;
+}
+
+.reg-form-title {
+    color: rgb(114, 110, 110);
+    font-size: 23px;
+    margin: 0 auto;
+    margin-bottom: 6px;
+    margin-top: -6px;
 }

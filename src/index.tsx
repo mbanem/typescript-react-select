@@ -3,8 +3,8 @@ import './Styles/index.scss';
 import * as React from 'react';
 
 import { App } from './Components/App';
-import { IProduct } from './Models/Interfaces';
-import data from './Models/data.json';
+import { IProduct } from './Interface';
+import data from './Interface/data.json';
 import { render } from 'react-dom';
 
 export const products = (): IProduct[] => {

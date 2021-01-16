@@ -70,3 +70,30 @@ $color: blue;
     font-size: 14px !important;
     line-height: 20px !important;
 }
+
+.user-form-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+    width: 25rem;
+    padding: 2rem;
+    border: 1px solid gray !important;
+    border-radius: 5px !important;
+    label,
+    input {
+        display: block;
+        width: 23rem;
+        height: 2rem !important;
+        padding: {
+            top: 3px;
+            bottom: 3px;
+        }
+    }
+}
+
+.input-boxes-container {
+    display: grid;
+    justify-content: space-around;
+    justify-items: flex-start;
+}

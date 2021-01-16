@@ -19,6 +19,5 @@ export const useSubject = () => {
 };
 export const toggleRegistrationForm = () => {
 	const srf = !gState.showRegistrationForm;
-	console.log('showRegForm srf', srf);
 	sendMessage({ showRegistrationForm: srf });
 };

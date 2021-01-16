@@ -1,4 +1,4 @@
-import { IState } from '../../Models/Interfaces';
+import { IState } from '../../Interface';
 import { formatCurrency } from '../../Utils/FormatCurrency';
 import { toggleRegistrationForm } from './UseSubject';
 export const cartItemsNumber = (state: IState): JSX.Element => {

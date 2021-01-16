@@ -1,4 +1,4 @@
-import { IProduct, IState } from '../Models/Interfaces';
+import { IProduct, IState } from '../Interface';
 
 import { sortProducts } from './SortProducts';
 

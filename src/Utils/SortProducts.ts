@@ -1,4 +1,4 @@
-import { IProduct } from '../Models/Interfaces';
+import { IProduct } from '../Interface';
 
 export const sortProducts = (
 	products: IProduct[],

@@ -1,5 +1,5 @@
 // import makeAnimated from 'react-select/animated';
-import { getOptionOrderBy, optionsOrderBy } from '../Models/options';
+import { getOptionOrderBy, optionsOrderBy } from '../Interface/options';
 
 import { IOrderByProps } from './Filter';
 import React from 'react';

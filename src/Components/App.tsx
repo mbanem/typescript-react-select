@@ -2,13 +2,7 @@ import '../Styles/App.scss';
 
 import { Cart, ICartProps } from './Cart';
 import { Filter, IFilterProps, IOrderByProps, ISizeProps } from './Filter';
-import {
-	ICart,
-	ICartItem,
-	IData,
-	IProduct,
-	IState,
-} from '../Models/Interfaces';
+import { ICart, ICartItem, IData, IProduct, IState } from '../Interface';
 import React, { useEffect, useState } from 'react';
 import {
 	addNewSizeToProductInCart,
@@ -19,7 +13,7 @@ import {
 } from '../Utils/CartItemHandlers';
 import { sendMessage, useSubject } from './Handlers/UseSubject';
 
-import { IOption } from '../Models/options';
+import { IOption } from '../Interface/options';
 import { Products } from './Products';
 import { Subject } from 'rxjs';
 import { ValueType } from 'react-select';
@@ -35,10 +29,10 @@ import { sortProducts } from '../Utils/SortProducts';
 
 export const App: React.FC<IData> = (data: IData): JSX.Element => {
 	//
-	const [refresh, setRefresh] = useState(false);
+	// const [refresh, setRefresh] = useState(false);
 	const globalState = useSubject();
 	// usee=d to force re-render when state or globalState mutates
-	let tf = false;
+	// let tf = false;
 
 	const handleQuantity = (cartItem: ICartItem, delta: number) => {
 		let cart = state.cart;
@@ -56,16 +50,21 @@ export const App: React.FC<IData> = (data: IData): JSX.Element => {
 	// initially state.products contains the full product list
 	// but is changed based on the selected size
 	const [state, setState] = useState<IState>(getInitialState(data.products));
-	useEffect(() => {
-		tf = !refresh;
-		setRefresh(tf);
-		const cartAndFilter = {
-			cart: state.cart,
-			size: state.size,
-			orderBy: state.orderBy,
-		};
-		localStorage.setItem('cartAndFilter', JSON.stringify(cartAndFilter));
-	}, [globalState, state]);
+	useEffect(
+		() => {
+			console.log('App useEffect');
+			// tf = !refresh;
+			// setRefresh(tf);
+			const cartAndFilter = {
+				cart: state.cart,
+				size: state.size,
+				orderBy: state.orderBy,
+			};
+			localStorage.setItem('cartAndFilter', JSON.stringify(cartAndFilter));
+		},
+		// globalState triggers sub-view while state triggers saving the local state
+		[globalState, state]
+	);
 	// state products includes products of the selected size
 	// or full products list if size is cleared in the select size box
 	// but always ordered according to the selected order by

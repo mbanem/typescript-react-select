@@ -1,6 +1,6 @@
 import '../Styles/Filter.scss';
 
-import { IOption } from '../Models/options';
+import { IOption } from '../Interface/options';
 import React from 'react';
 import { SelectOrder } from './SelectOrder';
 import { SelectSize } from './SelectSize';

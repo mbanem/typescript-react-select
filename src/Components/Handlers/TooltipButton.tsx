@@ -1,6 +1,6 @@
 import '../../Styles/Cart.scss';
 
-import { ICartItem, IProduct } from '../../Models/Interfaces';
+import { ICartItem, IProduct } from '../../Interface';
 
 import React from 'react';
 import ReactTooltip from 'react-tooltip';

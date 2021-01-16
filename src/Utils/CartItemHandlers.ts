@@ -4,7 +4,7 @@ import {
 	IProduct,
 	ISizeQuantity,
 	IState,
-} from '../Models/Interfaces/index';
+} from '../Interface/index';
 
 import { productFromId } from '../../src/index';
 

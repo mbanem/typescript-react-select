@@ -1,7 +1,7 @@
 // @flow
 
 // import makeAnimated from 'react-select/animated';
-import { getOptionSize, optionsSize } from '../Models/options';
+import { getOptionSize, optionsSize } from '../Interface/options';
 
 import { ISizeProps } from './Filter';
 import React from 'react';

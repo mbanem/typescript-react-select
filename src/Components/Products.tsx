@@ -1,7 +1,7 @@
 import '../Styles/App.scss';
 import '../Styles/Products.scss';
 
-import { IProduct, IProductProps } from '../Models/Interfaces';
+import { IProduct, IProductProps } from '../Interface';
 
 import React from 'react';
 import { formatCurrency } from '../Utils/FormatCurrency';
